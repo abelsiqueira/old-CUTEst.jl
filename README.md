@@ -52,5 +52,5 @@ julia> CUTEst.buildCUTEstProb("problem_name")
 - Load problem build previously.
 
 ~~~
-julia> CUTEst.loadCUTEstProb()
+julia> problem = CUTEst.loadCUTEstProb()
 ~~~
