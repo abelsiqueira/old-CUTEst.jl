@@ -52,5 +52,61 @@ julia> CUTEst.buildCUTEstProb("problem_name")
 - Load problem build previously.
 
 ~~~
-julia> problem = CUTEst.loadCUTEstProb()
+julia> problem = loadCUTEstProb()
 ~~~
+
+## Support
+
+- [ ] `cutest_ccfg`
+- [ ] `cutest_ccfsg`
+- [ ] `cutest_ccifg`
+- [ ] `cutest_ccifsg`
+- [ ] `cutest_cdh`
+- [x] `cutest_cdimen`
+- [ ] `cutest_cdimse`
+- [ ] `cutest_cdimsh`
+- [ ] `cutest_cdimsj`
+- [ ] `cutest_ceh`
+- [ ] `cutest_cfn`
+- [ ] `cutest_cgrdh`
+- [ ] `cutest_cgr`
+- [ ] `cutest_chcprod`
+- [ ] `cutest_chprod`
+- [ ] `cutest_cidh`
+- [ ] `cutest_cish`
+- [ ] `cutest_cjprod`
+- [ ] `cutest_clfg`
+- [ ] `cutest_cnames`
+- [ ] `cutest_cofg`
+- [ ] `cutest_cofsg`
+- [ ] `cutest_connames`
+- [ ] `cutest_creport`
+- [ ] `cutest_csetup`
+- [ ] `cutest_csgreh`
+- [ ] `cutest_csgr`
+- [ ] `cutest_csgrsh`
+- [ ] `cutest_cshc`
+- [ ] `cutest_csh`
+- [ ] `cutest_cshp`
+- [ ] `cutest_cvartype`
+- [ ] `cutest_probname`
+- [ ] `cutest_ubandh`
+- [ ] `cutest_udh`
+- [ ] `cutest_udimen`
+- [ ] `cutest_udimse`
+- [ ] `cutest_udimsh`
+- [ ] `cutest_ueh`
+- [ ] `cutest_ufn`
+- [ ] `cutest_ugrdh`
+- [ ] `cutest_ugreh`
+- [ ] `cutest_ugr`
+- [ ] `cutest_ugrsh`
+- [ ] `cutest_uhprod`
+- [ ] `cutest_unames`
+- [ ] `cutest_uofg`
+- [ ] `cutest_ureport`
+- [ ] `cutest_usetup`
+- [ ] `cutest_ush`
+- [ ] `cutest_ushp`
+- [ ] `cutest_uvartype`
+- [ ] `cutest_varnames`

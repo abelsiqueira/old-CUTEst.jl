@@ -1,5 +1,7 @@
 module CUTEst
 
+export loadCUTEstProb
+
 # Global definitions
 #
 # This definitions comes from CUTEst.
@@ -11,11 +13,11 @@ funit = 42
 # FORTRAN unit number for error output
 iout = 6
 # Exit flag from OPEN and CLOSE
-ioErr = 0
+ioErr = zeros(Int32, 1)
 # FORTRAN unit internal input/output
 io_buffer = 11
 # Exit flag from CUTEst tools
-status = 0
+status = zeros(Int32, 1)
 
 # Type definitions
 
@@ -50,19 +52,24 @@ function loadCUTEstProb()
     n = zeros(Int32, 1)
     m = zeros(Int32, 1)
 
-    # Auxiliar variables
-    ioErr = 0
-    status = 0
-
     # Open file
+    if ~ isfile("OUTSDIF.d")
+        throw(ErrorException("File OUTSDIF.d not exist"))
+    end
     ccall(("fortran_open_", "libCUTEstJL.so"), Ptr{Int32},
             (Ptr{Int32}, Ptr{Uint8}, Ptr{Int32}),
-            &funit, fName, &ioErr)
+            &funit, fName, ioErr)
+    if ioErr[1] > 0
+        throw(ErrorException("Problem when reading OUTSDIF.d"))
+    end
 
     # Get size of the problem
-    ccall(("cutest_cdimen_", "libCUTEstJL.so"), Ptr{Int32},
+    ccall(("cutest_cdimen_", "libCUTEstJL.so"), Void,
             (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
-            &status, &funit, n, m)
+            status, &funit, n, m)
+    if ioErr[1] > 0
+        throw(ErrorException("Error when retrieve size"))
+    end
 
     return CUTEstProb(n[1], m[1], 0, 0, 0)
 end
