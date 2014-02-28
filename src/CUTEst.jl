@@ -27,15 +27,34 @@ status = zeros(Int32, 1)
 # by loadCUTEstProb.
 type CUTEstProb
     # number of variables
-    n::Int
+    n::Int32
     # number of constraints
-    m::Int
+    m::Int32
     # nnz in Jacobian
-    nnzj::Int
+    nnzj::Int32
     # nnz in upper triangular Hessian
-    nnzh::Int
+    nnzh::Int32
     # derivative type
-    dertype::Int
+    dertype::Int32
+    # array that gives the initial estimate of the solution of the problem
+    x
+    # array that gives lower bounds on the variables
+    bl
+    # array that gives upper bounds on the variables
+    bu
+    # array that gives the initial estimate of the Lagrange multipliers
+    v
+    # array that gives lower bounds on the inequality constraints
+    cl
+    # array that gives upper bounds on the inequality constraints
+    cu
+    # a logical array whose i-th component is 1 if the i-th constraint
+    # is an equation
+    equatn
+    # a logical array whose i-th component is 1 if the i-th constraint
+    # is  linear
+    linear
+
 end
 
 # Create the shared library to be used.
@@ -71,6 +90,39 @@ function loadCUTEstProb()
         throw(ErrorException("Error when retrieve size"))
     end
 
+    # Set variables dependent of the problem's size
+    x = Array(Float64, n[1])
+    bl = Array(Float64, n[1])
+    bu = Array(Float64, n[1])
+    v = Array(Float64, m[1])
+    cl = Array(Float64, m[1])
+    cu = Array(Float64, m[1])
+    equatn = zeros(Int32, m[1])
+    linear = zeros(Int32, m[1])
+
+    if m[1] > 0
+        # Set up data structure for constrained minimization.
+        #
+        # The order is unimportant.
+        println("Using csetup")
+        ccall(("cutest_csetup_", "libCUTEstJL.so"), Void,
+                (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
+                Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64},
+                Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32},
+                Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
+                status, &funit, iout, &io_buffer,
+                n, m, x, bl, bu,
+                v, cl, cu, equatn, linear,
+                &1, &0, &0)
+    else
+        println("Using usetup")
+        ccall(("cutest_usetup_", "libCUTEstJL.so"), Void,
+                (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
+                Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
+                status, &funit, iout, &io_buffer,
+                n, m, x, bl, bu)
+    end
+
     # Closing file
     ccall(("fortran_close_", "libCUTEstJL.so"), Void,
             (Ptr{Int32}, Ptr{Int32}),
@@ -80,7 +132,10 @@ function loadCUTEstProb()
     end
 
     return CUTEstProb(n[1], m[1],
-            0, 0, 0)
+            0, 0, 0,
+            x, bl, bu,
+            v, cl, cu,
+            equatn, linear)
 end
 
 end # module
