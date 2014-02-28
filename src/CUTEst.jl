@@ -56,7 +56,7 @@ function loadCUTEstProb()
     if ~ isfile("OUTSDIF.d")
         throw(ErrorException("File OUTSDIF.d not exist"))
     end
-    ccall(("fortran_open_", "libCUTEstJL.so"), Ptr{Int32},
+    ccall(("fortran_open_", "libCUTEstJL.so"), Void,
             (Ptr{Int32}, Ptr{Uint8}, Ptr{Int32}),
             &funit, fName, ioErr)
     if ioErr[1] > 0
@@ -71,7 +71,16 @@ function loadCUTEstProb()
         throw(ErrorException("Error when retrieve size"))
     end
 
-    return CUTEstProb(n[1], m[1], 0, 0, 0)
+    # Closing file
+    ccall(("fortran_close_", "libCUTEstJL.so"), Void,
+            (Ptr{Int32}, Ptr{Int32}),
+            &funit, ioErr)
+    if ioErr[1] > 0
+        throw(ErrorException("Problem when reading OUTSDIF.d"))
+    end
+
+    return CUTEstProb(n[1], m[1],
+            0, 0, 0)
 end
 
 end # module
