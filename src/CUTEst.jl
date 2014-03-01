@@ -1,7 +1,5 @@
 module CUTEst
 
-export buildCUTEstProb, loadCUTEstProb
-
 # Global definitions
 #
 # This definitions comes from CUTEst.
@@ -48,6 +46,8 @@ const v_order = [int32(0)]
 # Store all the information about a problem and will be setup
 # by loadCUTEstProb.
 type CUTEstProb
+    # name of the problem
+    pname::ASCIIString
     # number of variables
     n::Array{Int32, 1}
     # number of constraints
@@ -60,12 +60,16 @@ type CUTEstProb
     dertype::Int32
     # array that gives the initial estimate of the solution of the problem
     x::Array{Float64, 1}
+    # array that gives the name of the variables
+    vnames::Array{ASCIIString, 1}
     # array that gives lower bounds on the variables
     bl::Array{Float64, 1}
     # array that gives upper bounds on the variables
     bu::Array{Float64, 1}
     # array that gives the initial estimate of the Lagrange multipliers
     v::Array{Float64, 1}
+    # array that gives the name of the constrains
+    cnames::Array{ASCIIString, 1}
     # array that gives lower bounds on the inequality constraints
     cl::Array{Float64, 1}
     # array that gives upper bounds on the inequality constraints
@@ -79,6 +83,22 @@ type CUTEstProb
 end
 
 # Function definitions
+
+# Private functions
+
+function names2array(names::ASCIIString, size::Int32, number::Int32)
+    array = Array(ASCIIString, number)
+
+    for i = 1:number
+        array[i] = names[(i - 1) * size + 1:i * size]
+    end
+
+    return array
+end
+
+# Public functions
+
+export buildCUTEstProb, loadCUTEstProb
 
 # Create the shared library to be used.
 function buildCUTEstProb(prob_name)
@@ -128,7 +148,6 @@ function loadCUTEstProb()
 
     if m[1] > 0
         # Set up data structure for constrained minimization.
-        println("Using csetup")
         ccall(("cutest_csetup_", "libCUTEstJL.so"), Void,
                 (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
                 Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64},
@@ -139,13 +158,47 @@ function loadCUTEstProb()
                 v, cl, cu, equatn, linear,
                 e_order, l_order, v_order)
     else
-        println("Using usetup")
+        # Set up data structure for unconstrained minimization.
         ccall(("cutest_usetup_", "libCUTEstJL.so"), Void,
                 (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
                 Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
                 status, funit, iout, io_buffer,
                 n, x, bl, bu)
     end
+    if status[1] > 0
+        throw(ErrorException("Problem when running setup"))
+    end
+
+    # Set variables for names
+    pname = ^(" ", 10)
+    tmp_vnames = ^(" ", 10 * n[1])
+    tmp_cnames = ^(" ", 10 * m[1])
+
+    status[1] = 0
+    # Set up name of the problem and its variables
+    if m[1] > 0
+        ccall(("cutest_cnames_", "libCUTEstJL.so"), Void,
+                (Ptr{Int32},
+                Ptr{Int32}, Ptr{Int32},
+                Ptr{Uint8}, Ptr{Uint8}, Ptr{Uint8}),
+                status,
+                n, m,
+                pname, tmp_vnames, tmp_cnames)
+    else
+        # Set up data structure for unconstrained minimization.
+        ccall(("cutest_unames_", "libCUTEstJL.so"), Void,
+                (Ptr{Int32},
+                Ptr{Int32},
+                Ptr{Uint8}, Ptr{Uint8}),
+                status,
+                n,
+                pname, tmp_vnames)
+    end
+    if status[1] > 0
+        throw(ErrorException("Problem when running setup"))
+    end
+    vnames = names2array(tmp_vnames, int32(10), n[1])
+    cnames = names2array(tmp_cnames, int32(10), m[1])
 
     # Closing file
     ioErr[1] = 0
@@ -153,13 +206,14 @@ function loadCUTEstProb()
             (Ptr{Int32}, Ptr{Int32}),
             funit, ioErr)
     if ioErr[1] > 0
-        throw(ErrorException("Problem when reading OUTSDIF.d"))
+        throw(ErrorException("Problem when closing OUTSDIF.d"))
     end
 
-    return CUTEstProb(n, m,
+    return CUTEstProb(pname,
+            n, m,
             0, 0, 0,
-            x, bl, bu,
-            v, cl, cu,
+            x, vnames, bl, bu,
+            v, cnames, cl, cu,
             equatn, linear)
 end
 

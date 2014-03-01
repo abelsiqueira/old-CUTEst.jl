@@ -76,7 +76,7 @@ julia> problem = loadCUTEstProb()
 - [ ] `cutest_cish`
 - [ ] `cutest_cjprod`
 - [ ] `cutest_clfg`
-- [ ] `cutest_cnames`
+- [x] `cutest_cnames`
 - [ ] `cutest_cofg`
 - [ ] `cutest_cofsg`
 - [ ] `cutest_connames`
@@ -102,7 +102,7 @@ julia> problem = loadCUTEstProb()
 - [ ] `cutest_ugr`
 - [ ] `cutest_ugrsh`
 - [ ] `cutest_uhprod`
-- [ ] `cutest_unames`
+- [x] `cutest_unames`
 - [ ] `cutest_uofg`
 - [ ] `cutest_ureport`
 - [x] `cutest_usetup`
