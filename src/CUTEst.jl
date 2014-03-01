@@ -110,7 +110,7 @@ function loadCUTEstProb()
                 Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64},
                 Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32},
                 Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
-                status, &funit, iout, &io_buffer,
+                status, &funit, &iout, &io_buffer,
                 n, m, x, bl, bu,
                 v, cl, cu, equatn, linear,
                 &1, &0, &0)
@@ -118,9 +118,9 @@ function loadCUTEstProb()
         println("Using usetup")
         ccall(("cutest_usetup_", "libCUTEstJL.so"), Void,
                 (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
-                Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
-                status, &funit, iout, &io_buffer,
-                n, m, x, bl, bu)
+                Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
+                status, &funit, &iout, &io_buffer,
+                n, x, bl, bu)
     end
 
     # Closing file
