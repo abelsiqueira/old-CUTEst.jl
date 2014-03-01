@@ -15,7 +15,7 @@ Orban.
   library so you have to use [ugly](https://github.com/lpoo/ugly).
 
 ~~~
-$ git clone --recursive git://github.com/lpoo/ugly.git
+$ git clone --recursive --branch julia git://github.com/lpoo/ugly.git
 $ cd ugly
 $ ./configure --enable-shared
 $ make
@@ -28,12 +28,12 @@ $ make
 julia> Pkg.clone("git://github.com/lpoo/CUTEst.jl.git")
 ~~~
 
-## Using
+## Using (Demo)
 
 - Starting Julia with current working directory in `LD_LIBRARY_PATH`.
 
 ~~~
-LD_LIBRARY_PATH=./ julia
+$ LD_LIBRARY_PATH=./ julia
 ~~~
 
 - Load CUTEst
@@ -46,13 +46,38 @@ julia> using CUTEst
 - Build the shared library for wanted problem (this is CUTEst's inheritance).
 
 ~~~
-julia> buildCUTEstProb("problem_name")
+julia> buildCUTEstProb("HS11")
+sifdecoder -A pc64.lnx.gfo  HS11
+
+ Problem name: HS11
+
+ Double precision version will be formed
+
+ The objective function uses 1 nonlinear group
+
+ There is 1 nonlinear inequality constraint
+
+ There are 2 free variables
+
+
+ File successfully decoded
+gfortran -fPIC -ffixed-form -c ELFUN.f90
+gfortran -fPIC -ffixed-form -c GROUP.f90
+gfortran -fPIC -ffixed-form -c RANGE.f90
 ~~~
 
 - Load problem build previously.
 
 ~~~
 julia> problem = loadCUTEstProb()
+CUTEstProb("HS11      ",[2],[1],[4],[2],[4.9,0.1],["X1        ","X2        "],[-1.0e20,-1.0e20],[1.0e20,1.0e20],[0.0],["CON1      "],[0.0],[1.0e20],[0],[0])
+~~~
+
+- Evaluate the objective function and constraints for `problem.x`.
+
+~~~
+julia> f, c = evaluateCUTEstProb(problem)
+([-24.979999999999997],[-23.910000000000004])
 ~~~
 
 ## Support
@@ -64,10 +89,10 @@ julia> problem = loadCUTEstProb()
 - [ ] `cutest_cdh`
 - [x] `cutest_cdimen`
 - [ ] `cutest_cdimse`
-- [ ] `cutest_cdimsh`
-- [ ] `cutest_cdimsj`
+- [x] `cutest_cdimsh`
+- [x] `cutest_cdimsj`
 - [ ] `cutest_ceh`
-- [ ] `cutest_cfn`
+- [x] `cutest_cfn`
 - [ ] `cutest_cgrdh`
 - [ ] `cutest_cgr`
 - [ ] `cutest_chcprod`

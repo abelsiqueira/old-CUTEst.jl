@@ -53,11 +53,9 @@ type CUTEstProb
     # number of constraints
     m::Array{Int32, 1}
     # nnz in Jacobian
-    nnzj::Int32
+    nnzj::Array{Int32, 1}
     # nnz in upper triangular Hessian
-    nnzh::Int32
-    # derivative type
-    dertype::Int32
+    nnzh::Array{Int32, 1}
     # array that gives the initial estimate of the solution of the problem
     x::Array{Float64, 1}
     # array that gives the name of the variables
@@ -90,6 +88,7 @@ function names2array(names::ASCIIString, size::Int32, number::Int32)
     array = Array(ASCIIString, number)
 
     for i = 1:number
+        # TODO Remove trail white spaces
         array[i] = names[(i - 1) * size + 1:i * size]
     end
 
@@ -98,7 +97,7 @@ end
 
 # Public functions
 
-export buildCUTEstProb, loadCUTEstProb
+export buildCUTEstProb, loadCUTEstProb, evaluateCUTEstProb
 
 # Create the shared library to be used.
 function buildCUTEstProb(prob_name)
@@ -114,6 +113,8 @@ function loadCUTEstProb()
     # when calling CUTEst functions.
     n = Array(Int32, 1)
     m = Array(Int32, 1)
+    nnzj = Array(Int32, 1)
+    nnzh = Array(Int32, 1)
 
     # Open file
     if ~ isfile("OUTSDIF.d")
@@ -200,6 +201,36 @@ function loadCUTEstProb()
     vnames = names2array(tmp_vnames, int32(10), n[1])
     cnames = names2array(tmp_cnames, int32(10), m[1])
 
+    # Determine the number of nonzeros needed to store the Hessian of the
+    # Lagrangian function.
+    status[1] = 0
+    if m[1] > 0
+        ccall(("cutest_cdimsh_", "libCUTEstJL.so"), Void,
+                (Ptr{Int32}, Ptr{Int32}),
+                status, nnzh)
+    else
+        ccall(("cutest_udimsh_", "libCUTEstJL.so"), Void,
+                (Ptr{Int32}, Ptr{Int32}),
+                status, nnzh)
+    end
+    if status[1] > 0
+        throw(ErrorException("Problem when determine the number of nonzeros."))
+    end
+
+    # Determine the number of nonzeros needed to store the matrix of gradients
+    # of the objective function and constraints.
+    status[1] = 0
+    if m[1] > 0
+        ccall(("cutest_cdimsj_", "libCUTEstJL.so"), Void,
+                (Ptr{Int32}, Ptr{Int32}),
+                status, nnzj)
+    else
+        nnzj = [int32(-1)]
+    end
+    if status[1] > 0
+        throw(ErrorException("Problem when determine the number of nonzeros."))
+    end
+
     # Closing file
     ioErr[1] = 0
     ccall(("fortran_close_", "libCUTEstJL.so"), Void,
@@ -211,10 +242,27 @@ function loadCUTEstProb()
 
     return CUTEstProb(pname,
             n, m,
-            0, 0, 0,
+            nnzj, nnzh,
             x, vnames, bl, bu,
             v, cnames, cl, cu,
             equatn, linear)
+end
+
+function evaluateCUTEstProb(Prob::CUTEstProb)
+    # Variables
+    objective = Array(Float64, 1)
+    constraints = Array(Float64, Prob.m[1])
+
+    status[1] = 0
+    ccall(("cutest_cfn_", "libCUTEstJL.so"), Void,
+            (Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
+            Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
+            status, Prob.n, Prob.m, Prob.x, objective, constraints)
+    if status[1] > 0
+        throw(ErrorException("Error when evaluation function or constraints"))
+    end
+
+    return objective, constraints
 end
 
 end # module
