@@ -46,7 +46,7 @@ julia> using CUTEst
 - Build the shared library for wanted problem (this is CUTEst's inheritance).
 
 ~~~
-julia> CUTEst.buildCUTEstProb("problem_name")
+julia> buildCUTEstProb("problem_name")
 ~~~
 
 - Load problem build previously.
@@ -81,7 +81,7 @@ julia> problem = loadCUTEstProb()
 - [ ] `cutest_cofsg`
 - [ ] `cutest_connames`
 - [ ] `cutest_creport`
-- [ ] `cutest_csetup`
+- [x] `cutest_csetup`
 - [ ] `cutest_csgreh`
 - [ ] `cutest_csgr`
 - [ ] `cutest_csgrsh`
@@ -105,7 +105,7 @@ julia> problem = loadCUTEstProb()
 - [ ] `cutest_unames`
 - [ ] `cutest_uofg`
 - [ ] `cutest_ureport`
-- [ ] `cutest_usetup`
+- [x] `cutest_usetup`
 - [ ] `cutest_ush`
 - [ ] `cutest_ushp`
 - [ ] `cutest_uvartype`
