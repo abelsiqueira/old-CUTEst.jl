@@ -101,8 +101,12 @@ export buildCUTEstProb, loadCUTEstProb, evaluateCUTEstProb
 
 # Create the shared library to be used.
 function buildCUTEstProb(prob_name)
-    # TODO Replace `runcutest` with another call
-    run(`runcutest -p gen77 -D $prob_name`)
+    run(`sifdecoder $prob_name`)
+    files = ["ELFUN", "EXTER", "GROUP", "RANGE"]
+    for file = files
+        run(`gfortran -c -o $file.o $file.f`)
+    end
+    run(`ld -shared -o libCUTEstJL.so ELFUN.o EXTER.o GROUP.o RANGE.o -lcutest -lgfortran`)
 end
 
 # Setup the data structure with all the information about the problem.
