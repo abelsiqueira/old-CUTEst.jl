@@ -7,7 +7,7 @@ before_install:
   - git config --global user.name "Travis CI"
   - git config --global user.email "travis@nomail.net"
   - cd ..; git clone --depth 1 git://github.com/abelsiqueira/cutest-julia-installer.git
-  - cd cutest-julia-install && ./download-cutest && ./install-cutest.sh
+  - cd cutest-julia-installer && ./download-cutest && ./install-cutest.sh
   - cd ../CUTEst.jl
 script:
   - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst")'
