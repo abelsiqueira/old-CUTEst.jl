@@ -11,4 +11,4 @@ before_install:
   - cd ../CUTEst.jl
 script:
   - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst")'
-  - LD_LIBRARY_PATH=. julia test/runtests.jl
+  - source ../cutest-julia-installer/cutest_variables; LD_LIBRARY_PATH=. julia test/runtests.jl
