@@ -9,6 +9,7 @@ before_install:
   - cd ..; git clone --depth 1 git://github.com/abelsiqueira/cutest-julia-installer.git
   - cd cutest-julia-installer && ./download-cutest.sh && ./install-cutest.sh
   - cd ../CUTEst.jl
+  - sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/4.6/libgfortran.so /usr/lib/
 script:
   - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst")'
   - source ../cutest-julia-installer/cutest_variables; LD_LIBRARY_PATH=. julia test/runtests.jl
