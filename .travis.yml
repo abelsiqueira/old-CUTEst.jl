@@ -12,4 +12,6 @@ before_install:
   - sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/4.6/libgfortran.so /usr/lib/
 script:
   - source ../cutest-julia-installer/cutest_variables
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst"); Pkg.test("CUTEst")'
+  - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst"); Pkg.test("CUTEst", coverage=true)'
+after_success:
+  - julia -e 'cd(Pkg.dir("CUTEst")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
