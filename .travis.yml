@@ -4,7 +4,11 @@ julia:
 before_install:
   - sudo apt-get update -qq -y
   - sudo apt-get install -y gfortran
-  - git clone --depth 1 https://github.com/abelsiqueira/cutest-julia-install.git
+  - git config --user.name "Travis CI"
+  - git config --user.email "travis@nomail.net"
+  - cd ..; git clone --depth 1 https://github.com/abelsiqueira/cutest-julia-install.git
   - cd cutest-julia-install && ./download-cutest && ./install-cutest.sh
+  - cd ../CUTEst.jl
 script:
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst"); Pkg.test("CUTEst")'
+  - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst")'
+  - LD_LIBRARY_PATH=. julia -e test/runtests.jl
