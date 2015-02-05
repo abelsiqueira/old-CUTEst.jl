@@ -11,5 +11,6 @@ before_install:
   - cd ../CUTEst.jl
   - sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/4.6/libgfortran.so /usr/lib/
 script:
+  - source ../cutest-julia-installer/cutest_variables
   - julia -e 'Pkg.clone(pwd()); Pkg.build("CUTEst")'
-  - source ../cutest-julia-installer/cutest_variables; LD_LIBRARY_PATH=. julia test/runtests.jl
+  - LD_LIBRARY_PATH=. julia test/runtests.jl
