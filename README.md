@@ -33,7 +33,7 @@ Orban.
 - Install this package.
 
 ~~~
-julia> Pkg.clone("git://github.com/lpoo/CUTEst.jl.git")
+julia> Pkg.clone("git://github.com/abelsiqueira/CUTEst.jl.git")
 ~~~
 
 ## Using (Demo)
