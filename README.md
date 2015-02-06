@@ -38,19 +38,13 @@ julia> Pkg.clone("git://github.com/abelsiqueira/CUTEst.jl.git")
 
 ## Using (Demo)
 
-- Starting Julia with current working directory in `LD_LIBRARY_PATH`.
-
-~~~
-$ LD_LIBRARY_PATH=./ julia
-~~~
-
 - Load CUTEst
 
 ~~~
 julia> using CUTEst
 ~~~
 
-- Build the shared library for wanted problem (this is CUTEst's inheritance).
+- Build the shared library for specific problem (this is CUTEst's inheritance).
 
 ~~~
 julia> buildCUTEstProb("HS11")
@@ -70,7 +64,7 @@ sifdecoder -A pc64.lnx.gfo  HS11
  File successfully decoded
 ~~~
 
-- Load problem build previously.
+- Load problem built previously.
 
 ~~~
 julia> problem = loadCUTEstProb()
@@ -80,11 +74,24 @@ CUTEstProb("HS11      ",[2],[1],[4],[2],[4.9,0.1],["X1        ","X2        "],[-
   From here, you can verify that the function was loaded,
   the bounds are correct, the names are correct,
   the initial value is correct and the dimensions are correct.
-  Support for each function will follow shortly.
 
-## Support
+- Test cfn
 
-Each of the following functions should be translated into
+~~~
+julia> f = [0.0];
+julia> c = Array(Float64, prob.m[1]);
+julia> st = [int32(0)];
+julia> x = copy(prob.x);
+julia> CUTEst.cutest_jl_cfn(st, prob.n, prob.m, x, f, c)
+julia> println("f = ",f)
+f = [-24.979999999999997]
+julia> println("c = ",c)
+c = [-23.910000000000004]
+~~~
+
+## Interface
+
+Each of the `cutest_cxxx` and `cutest_uxxx` functions should be translated into
 an equivalent julia call.
 The names shall follow the change of pattern
 `cutest_xx_` to `cutest_jl_xx`, and the same input and
@@ -94,60 +101,3 @@ should be created, that should be used only when speed
 is not a factor.
 Since this is mostly not the case with NLP, they will
 be secondary.
-
-The following list is an initial preview of which functions will
-be translated.
-
-- [ ] `cutest_ccfg`
-- [ ] `cutest_ccfsg`
-- [ ] `cutest_ccifg`
-- [ ] `cutest_ccifsg`
-- [ ] `cutest_cdh`
-- [ ] `cutest_cdimen`
-- [ ] `cutest_cdimse`
-- [ ] `cutest_cdimsh`
-- [ ] `cutest_cdimsj`
-- [ ] `cutest_ceh`
-- [ ] `cutest_cfn`
-- [ ] `cutest_cgrdh`
-- [ ] `cutest_cgr`
-- [ ] `cutest_chcprod`
-- [ ] `cutest_chprod`
-- [ ] `cutest_cidh`
-- [ ] `cutest_cish`
-- [ ] `cutest_cjprod`
-- [ ] `cutest_clfg`
-- [ ] `cutest_cnames`
-- [ ] `cutest_cofg`
-- [ ] `cutest_cofsg`
-- [ ] `cutest_connames`
-- [ ] `cutest_creport`
-- [ ] `cutest_csetup`
-- [ ] `cutest_csgreh`
-- [ ] `cutest_csgr`
-- [ ] `cutest_csgrsh`
-- [ ] `cutest_cshc`
-- [ ] `cutest_csh`
-- [ ] `cutest_cshp`
-- [ ] `cutest_cvartype`
-- [ ] `cutest_probname`
-- [ ] `cutest_ubandh`
-- [ ] `cutest_udh`
-- [ ] `cutest_udimen`
-- [ ] `cutest_udimse`
-- [ ] `cutest_udimsh`
-- [ ] `cutest_ueh`
-- [ ] `cutest_ufn`
-- [ ] `cutest_ugrdh`
-- [ ] `cutest_ugreh`
-- [ ] `cutest_ugr`
-- [ ] `cutest_ugrsh`
-- [ ] `cutest_uhprod`
-- [ ] `cutest_unames`
-- [ ] `cutest_uofg`
-- [ ] `cutest_ureport`
-- [ ] `cutest_usetup`
-- [ ] `cutest_ush`
-- [ ] `cutest_ushp`
-- [ ] `cutest_uvartype`
-- [ ] `cutest_varnames`
