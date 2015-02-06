@@ -1,319 +1,332 @@
 const libname = "libCUTEstJL.so"
 
-function cutest_jl_usetup (status, funit, iout, io_buffer, n, x, bl, bu)
+function usetup (status, funit, iout, io_buffer, n, x, bl, bu)
     ccall(("cutest_usetup_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
         status, funit, iout, io_buffer, n, x, bl, bu)
 end
 
-function cutest_jl_csetup (status, funit, iout, io_buffer, n, m, x, bl, bu, v, cl, cu, equatn, linear, e_order, l_order, v_order)
+function csetup (status, funit, iout, io_buffer, n, m, x, bl, bu, v, cl, cu, equatn, linear, e_order, l_order, v_order)
     ccall(("cutest_csetup_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, funit, iout, io_buffer, n, m, x, bl, bu, v, cl, cu, equatn, linear, e_order, l_order, v_order)
 end
 
-function cutest_jl_udimen (status, funit, n)
+function udimen (status, funit, n)
     ccall(("cutest_udimen_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, funit, n)
 end
 
-function cutest_jl_udimsh (status, nnzh)
+function udimsh (status, nnzh)
     ccall(("cutest_udimsh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}),
         status, nnzh)
 end
 
-function cutest_jl_udimse (status, ne, nzh, nzirnh)
+function udimse (status, ne, nzh, nzirnh)
     ccall(("cutest_udimse_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, ne, nzh, nzirnh)
 end
 
-function cutest_jl_uvartype (status, n, ivarty)
+function uvartype (status, n, ivarty)
     ccall(("cutest_uvartype_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, n, ivarty)
 end
 
-function cutest_jl_unames (status, n, pname, vnames)
+function unames (status, n, pname, vnames)
     ccall(("cutest_unames_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Uint8}, Ptr{Uint8}),
         status, n, pname, vnames)
 end
 
-function cutest_jl_ureport (status, calls, time)
+function ureport (status, calls, time)
     ccall(("cutest_ureport_", libname), Void,
         (Ptr{Int32}, Ptr{Float64}, Ptr{Float64}),
         status, calls, time)
 end
 
-function cutest_jl_cdimen (status, funit, n, m)
+function cdimen (status, funit, n, m)
     ccall(("cutest_cdimen_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, funit, n, m)
 end
 
-function cutest_jl_cdimsj (status, nnzj)
+function cdimsj (status, nnzj)
     ccall(("cutest_cdimsj_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}),
         status, nnzj)
 end
 
-function cutest_jl_cdimsh (status, nnzh)
+function cdimsh (status, nnzh)
     ccall(("cutest_cdimsh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}),
         status, nnzh)
 end
 
-function cutest_jl_cdimse (status, ne, nzh, nzirnh)
+function cdimse (status, ne, nzh, nzirnh)
     ccall(("cutest_cdimse_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, ne, nzh, nzirnh)
 end
 
-function cutest_jl_cstats (status, nonlinear_variables_objective, nonlinear_variables_constraints, equality_constraints, linear_constraints)
+function cstats (status, nonlinear_variables_objective, nonlinear_variables_constraints, equality_constraints, linear_constraints)
     ccall(("cutest_cstats_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, nonlinear_variables_objective, nonlinear_variables_constraints, equality_constraints, linear_constraints)
 end
 
-function cutest_jl_cvartype (status, n, ivarty)
+function cvartype (status, n, ivarty)
     ccall(("cutest_cvartype_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, n, ivarty)
 end
 
-function cutest_jl_cnames (status, n, m, pname, vnames, gnames)
+function cnames (status, n, m, pname, vnames, gnames)
     ccall(("cutest_cnames_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Uint8}),
         status, n, m, pname, vnames, gnames)
 end
 
-function cutest_jl_creport (status, calls, time)
+function creport (status, calls, time)
     ccall(("cutest_creport_", libname), Void,
         (Ptr{Int32}, Ptr{Float64}, Ptr{Float64}),
         status, calls, time)
 end
 
-function cutest_jl_connames (status, m, gname)
+function connames (status, m, gname)
     ccall(("cutest_connames_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Uint8}),
         status, m, gname)
 end
 
-function cutest_jl_pname (status, funit, pname)
+function pname (status, funit, pname)
     ccall(("cutest_pname_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Uint8}),
         status, funit, pname)
 end
 
-function cutest_jl_probname (status, pname)
+function probname (status, pname)
     ccall(("cutest_probname_", libname), Void,
         (Ptr{Int32}, Ptr{Uint8}),
         status, pname)
 end
 
-function cutest_jl_varnames (status, n, vname)
+function varnames (status, n, vname)
     ccall(("cutest_varnames_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Uint8}),
         status, n, vname)
 end
 
-function cutest_jl_ufn (status, n, x, f)
+function ufn (status, n, x, f)
     ccall(("cutest_ufn_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}),
         status, n, x, f)
 end
 
-function cutest_jl_ugr (status, n, x, g)
+function ugr (status, n, x, g)
     ccall(("cutest_ugr_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}),
         status, n, x, g)
 end
 
-function cutest_jl_uofg (status, n, x, f, g, grad)
+function uofg (status, n, x, f, g, grad)
     ccall(("cutest_uofg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}),
         status, n, x, f, g, grad)
 end
 
-function cutest_jl_ubandh (status, n, x, nsemib, bandh, lbandh, maxsbw)
+function ubandh (status, n, x, nsemib, bandh, lbandh, maxsbw)
     ccall(("cutest_ubandh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, x, nsemib, bandh, lbandh, maxsbw)
 end
 
-function cutest_jl_udh (status, n, x, lh1, h)
+function udh (status, n, x, lh1, h)
     ccall(("cutest_udh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}),
         status, n, x, lh1, h)
 end
 
-function cutest_jl_ush (status, n, x, nnzh, lh, h, irnh, icnh)
+function ush (status, n, x, nnzh, lh, h, irnh, icnh)
     ccall(("cutest_ush_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, x, nnzh, lh, h, irnh, icnh)
 end
 
-function cutest_jl_ueh (status, n, x, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
+function ueh (status, n, x, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
     ccall(("cutest_ueh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}),
         status, n, x, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
 end
 
-function cutest_jl_ugrdh (status, n, x, g, lh1, h)
+function ugrdh (status, n, x, g, lh1, h)
     ccall(("cutest_ugrdh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}),
         status, n, x, g, lh1, h)
 end
 
-function cutest_jl_ugrsh (status, n, x, g, nnzh, lh, h, irnh, icnh)
+function ugrsh (status, n, x, g, nnzh, lh, h, irnh, icnh)
     ccall(("cutest_ugrsh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, x, g, nnzh, lh, h, irnh, icnh)
 end
 
-function cutest_jl_ugreh (status, n, x, g, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
+function ugreh (status, n, x, g, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
     ccall(("cutest_ugreh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}),
         status, n, x, g, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
 end
 
-function cutest_jl_uhprod (status, n, goth, x, p, q)
+function uhprod (status, n, goth, x, p, q)
     ccall(("cutest_uhprod_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
         status, n, goth, x, p, q)
 end
 
-function cutest_jl_cfn (status, n, m, x, f, c)
+function cfn (status, n, m, x, f, c)
     ccall(("cutest_cfn_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
         status, n, m, x, f, c)
 end
 
-function cutest_jl_cofg (status, n, x, f, g, grad)
+function cofg (status, n, x, f, g, grad)
     ccall(("cutest_cofg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}),
         status, n, x, f, g, grad)
 end
 
-function cutest_jl_cofsg (status, n, x, f, nnzg, lg, sg, ivsg, grad)
+function cofsg (status, n, x, f, nnzg, lg, sg, ivsg, grad)
     ccall(("cutest_cofsg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, x, f, nnzg, lg, sg, ivsg, grad)
 end
 
-function cutest_jl_ccfg (status, n, m, x, c, jtrans, lcjac1, lcjac2, cjac, grad)
+function ccfg (status, n, m, x, c, jtrans, lcjac1, lcjac2, cjac, grad)
     ccall(("cutest_ccfg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}),
         status, n, m, x, c, jtrans, lcjac1, lcjac2, cjac, grad)
 end
 
-function cutest_jl_clfg (status, n, m, x, v, f, g, grad)
+function clfg (status, n, m, x, v, f, g, grad)
     ccall(("cutest_clfg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}),
         status, n, m, x, v, f, g, grad)
 end
 
-function cutest_jl_cgr (status, n, m, x, v, grlagf, g, jtrans, lcjac1, lcjac2, cjac)
+function cgr (status, n, m, x, v, grlagf, g, jtrans, lcjac1, lcjac2, cjac)
     ccall(("cutest_cgr_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}),
         status, n, m, x, v, grlagf, g, jtrans, lcjac1, lcjac2, cjac)
 end
 
-function cutest_jl_csgr (status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun)
+function csgr (status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun)
     ccall(("cutest_csgr_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun)
 end
 
-function cutest_jl_ccfsg (status, n, m, x, c, nnzj, lcjac, cjac, indvar, indfun, grad)
+function ccfsg (status, n, m, x, c, nnzj, lcjac, cjac, indvar, indfun, grad)
     ccall(("cutest_ccfsg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
         status, n, m, x, c, nnzj, lcjac, cjac, indvar, indfun, grad)
 end
 
-function cutest_jl_ccifg (status, n, i, x, ci, gci, grad)
+function ccifg (status, n, i, x, ci, gci, grad)
     ccall(("cutest_ccifg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}),
         status, n, i, x, ci, gci, grad)
 end
 
-function cutest_jl_ccifsg (status, n, i, x, ci, nnzsgc, lsgci, sgci, ivsgci, grad)
+function ccifsg (status, n, i, x, ci, nnzsgc, lsgci, sgci, ivsgci, grad)
     ccall(("cutest_ccifsg_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, i, x, ci, nnzsgc, lsgci, sgci, ivsgci, grad)
 end
 
-function cutest_jl_cgrdh (status, n, m, x, v, grlagf, g, jtrans, lcjac1, lcjac2, cjac, lh1, h)
+function cgrdh (status, n, m, x, v, grlagf, g, jtrans, lcjac1, lcjac2, cjac, lh1, h)
     ccall(("cutest_cgrdh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}),
         status, n, m, x, v, grlagf, g, jtrans, lcjac1, lcjac2, cjac, lh1, h)
 end
 
-function cutest_jl_cdh (status, n, m, x, v, lh1, h)
+function cdh (status, n, m, x, v, lh1, h)
     ccall(("cutest_cdh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}),
         status, n, m, x, v, lh1, h)
 end
 
-function cutest_jl_csh (status, n, m, x, v, nnzh, lh, h, irnh, icnh)
+function csh (status, n, m, x, v, nnzh, lh, h, irnh, icnh)
     ccall(("cutest_csh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, m, x, v, nnzh, lh, h, irnh, icnh)
 end
 
-function cutest_jl_cshc (status, n, m, x, v, nnzh, lh, h, irnh, icnh)
+function cshc (status, n, m, x, v, nnzh, lh, h, irnh, icnh)
     ccall(("cutest_cshc_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, m, x, v, nnzh, lh, h, irnh, icnh)
 end
 
-function cutest_jl_ceh (status, n, m, x, lv, v, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
+function ceh (status, n, m, x, lv, v, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
     ccall(("cutest_ceh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}),
         status, n, m, x, lv, v, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
 end
 
-function cutest_jl_cidh (status, n, x, iprob, lh1, h)
+function cidh (status, n, x, iprob, lh1, h)
     ccall(("cutest_cidh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}),
         status, n, x, iprob, lh1, h)
 end
 
-function cutest_jl_cish (status, n, x, iprob, nnzh, lh, h, irnh, icnh)
+function cish (status, n, x, iprob, nnzh, lh, h, irnh, icnh)
     ccall(("cutest_cish_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, x, iprob, nnzh, lh, h, irnh, icnh)
 end
 
-function cutest_jl_csgrsh (status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun, nnzh, lh, h, irnh, icnh)
+function csgrsh (status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun, nnzh, lh, h, irnh, icnh)
     ccall(("cutest_csgrsh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}),
         status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun, nnzh, lh, h, irnh, icnh)
 end
 
-function cutest_jl_csgreh (status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
+function csgreh (status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
     ccall(("cutest_csgreh_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}),
         status, n, m, x, v, grlagf, nnzj, lcjac, cjac, indvar, indfun, ne, le, iprnhi, iprhi, lirnhi, irnhi, lhi, hi, byrows)
 end
 
-function cutest_jl_chprod (status, n, m, goth, x, v, p, q)
+function chprod (status, n, m, goth, x, v, p, q)
     ccall(("cutest_chprod_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
         status, n, m, goth, x, v, p, q)
 end
 
-function cutest_jl_chcprod (status, n, m, goth, x, v, p, q)
+function chcprod (status, n, m, goth, x, v, p, q)
     ccall(("cutest_chcprod_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
         status, n, m, goth, x, v, p, q)
 end
 
-function cutest_jl_cjprod (status, n, m, gotj, jtrans, x, p, lp, r, lr)
+function cjprod (status, n, m, gotj, jtrans, x, p, lp, r, lr)
     ccall(("cutest_cjprod_", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Float64}, Ptr{Int32}),
         status, n, m, gotj, jtrans, x, p, lp, r, lr)
 end
+
+function uterminate (status)
+    ccall(("cutest_uterminate_", libname), Void,
+        (Ptr{Int32},),
+        status)
+end
+
+function cterminate (status)
+    ccall(("cutest_cterminate_", libname), Void,
+        (Ptr{Int32},),
+        status)
+end
+
