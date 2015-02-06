@@ -106,7 +106,7 @@ function buildCUTEstProb(prob_name)
     run(`sifdecoder $prob_name`)
     files = ["ELFUN", "EXTER", "GROUP", "RANGE"]
     for file = files
-        run(`gfortran -c -o $file.o $file.f`)
+        run(`gfortran -c -o $file.o $file.f -fPIC`)
     end
     run(`ld -shared -o libCUTEstJL.so ELFUN.o EXTER.o GROUP.o RANGE.o -lcutest -lgfortran`)
 end
