@@ -254,21 +254,4 @@ function loadCUTEstProb()
             equatn, linear)
 end
 
-function evaluateCUTEstProb(Prob::CUTEstProb)
-    # Variables
-    objective = Array(Float64, 1)
-    constraints = Array(Float64, Prob.m[1])
-
-    status[1] = 0
-    ccall(("cutest_cfn_", "libCUTEstJL.so"), Void,
-            (Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
-            Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
-            status, Prob.n, Prob.m, Prob.x, objective, constraints)
-    if status[1] > 0
-        throw(ErrorException("Error when evaluation function or constraints"))
-    end
-
-    return objective, constraints
-end
-
 end # module
