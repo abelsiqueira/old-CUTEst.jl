@@ -14,6 +14,9 @@ Orban.
   You need to install it completely and set the environment variables
   `CUTEST`, `SIFDECODE`, `MYARCH`, `MASTSIF`
   as well as include the path to the binaries.
+  **One easy way to do that is using
+  [Homebrew/Linuxbrew](https://github.com/dpo/homebrew-cutest),
+  which will provides all that, and a shared library, which you'll need.**
   You do not need interface to Matlab, nor GALAHAD, neither need to
   make any modifications on the commands for the compilers.
   If you don't want to do this yourself, you can go to
@@ -21,7 +24,9 @@ Orban.
   and do most of the work automatically.
 
 - Build and install the shared library from cutest.
-  
+
+  **If you used Homebrew/Linuxbrew, you already have a shared library,
+  and can skip this step.**
   Basically, you need most tools from `$CUTEST/src/tools`
   compiled with `-fPIC`,
   the module `cutest.mod` from `$CUTEST/modules/$MYARCH/double/`,
