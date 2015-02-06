@@ -82,7 +82,7 @@ julia> f = [0.0];
 julia> c = Array(Float64, prob.m[1]);
 julia> st = [int32(0)];
 julia> x = copy(prob.x);
-julia> CUTEst.cutest_jl_cfn(st, prob.n, prob.m, x, f, c)
+julia> CUTEst.cfn(st, prob.n, prob.m, x, f, c)
 julia> println("f = ",f)
 f = [-24.979999999999997]
 julia> println("c = ",c)
@@ -94,7 +94,8 @@ c = [-23.910000000000004]
 Each of the `cutest_cxxx` and `cutest_uxxx` functions should be translated into
 an equivalent julia call.
 The names shall follow the change of pattern
-`cutest_xx_` to `cutest_jl_xx`, and the same input and
+`cutest_xx_` to `xx`, for it will be implied
+`CUTEst.xx`. The same input and
 output should be used.
 In additions, some additional higher level functions
 should be created, that should be used only when speed
