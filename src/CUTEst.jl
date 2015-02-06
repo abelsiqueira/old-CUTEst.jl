@@ -1,6 +1,6 @@
 module CUTEst
 
-include("cutest_functions.jl")
+include("julia_interface.jl")
 
 # Global definitions
 #
