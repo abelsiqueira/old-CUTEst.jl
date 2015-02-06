@@ -155,22 +155,11 @@ function loadCUTEstProb()
 
     if m[1] > 0
         # Set up data structure for constrained minimization.
-        ccall(("cutest_csetup_", "libCUTEstJL.so"), Void,
-                (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
-                Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64},
-                Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int32}, Ptr{Int32},
-                Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
-                status, funit, iout, io_buffer,
-                n, m, x, bl, bu,
-                v, cl, cu, equatn, linear,
-                e_order, l_order, v_order)
+        CUTEst.csetup(status, funit, iout, io_buffer, n, m, x, bl, bu, v, cl,
+            cu, equatn, linear, e_order, l_order, v_order)
     else
         # Set up data structure for unconstrained minimization.
-        ccall(("cutest_usetup_", "libCUTEstJL.so"), Void,
-                (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32},
-                Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
-                status, funit, iout, io_buffer,
-                n, x, bl, bu)
+        CUTEst.usetup( status, funit, iout, io_buffer, n, x, bl, bu)
     end
     if status[1] > 0
         throw(ErrorException("Problem when running setup"))
