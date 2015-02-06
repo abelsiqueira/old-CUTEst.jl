@@ -24,6 +24,7 @@ with open(cutest+"/include/cutest.h") as file:
 cutypes = {"integer":"Int32", "doublereal":"Float64", "logical":"Int32",
         "char":"Uint8"}
 
+print("const libname = \"libCUTEstJL.so\"\n") 
 for function in functions:
     name = re.search('CUTEST_([a-z]*)', function).group(1)
     print("function cutest_jl_"+name+" (", end="")
@@ -31,10 +32,8 @@ for function in functions:
     matches = [re.search('([a-z]*) \*(.*)', arg.strip()) for arg in args]
     vars = [[m.group(1),m.group(2)] for m in matches]
     print(', '.join([v[1] for v in vars]) + ")")
-    print("    ccall((\""+name+"\", libname), Void,")
+    print("    ccall((\"cutest_"+name+"_\", libname), Void,")
     print("        (", end="")
     print(', '.join(["Ptr{"+cutypes[v[0]]+"}" for v in vars])+"),")
-    print("        "+', '.join(
-        [re.search('\*(.*)', arg.strip()).group(1) for arg in args]
-        )+")")
+    print("        "+', '.join([v[1] for v in vars]) + ")")
     print("end\n")
