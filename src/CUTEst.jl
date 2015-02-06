@@ -1,5 +1,7 @@
 module CUTEst
 
+include("cutest_functions.jl")
+
 # Global definitions
 #
 # This definitions comes from CUTEst.
