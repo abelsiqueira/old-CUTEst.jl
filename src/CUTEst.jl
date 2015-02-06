@@ -136,9 +136,7 @@ function loadCUTEstProb()
 
     # Get size of the problem
     ioErr[1] = 0
-    ccall(("cutest_cdimen_", "libCUTEstJL.so"), Void,
-            (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}),
-            status, funit, n, m)
+    CUTEst.cdimen(status, funit, n, m)
     if ioErr[1] > 0
         throw(ErrorException("Error when retrieve size"))
     end
@@ -159,7 +157,7 @@ function loadCUTEstProb()
             cu, equatn, linear, e_order, l_order, v_order)
     else
         # Set up data structure for unconstrained minimization.
-        CUTEst.usetup( status, funit, iout, io_buffer, n, x, bl, bu)
+        CUTEst.usetup(status, funit, iout, io_buffer, n, x, bl, bu)
     end
     if status[1] > 0
         throw(ErrorException("Problem when running setup"))
@@ -173,22 +171,10 @@ function loadCUTEstProb()
     status[1] = 0
     # Set up name of the problem and its variables
     if m[1] > 0
-        ccall(("cutest_cnames_", "libCUTEstJL.so"), Void,
-                (Ptr{Int32},
-                Ptr{Int32}, Ptr{Int32},
-                Ptr{Uint8}, Ptr{Uint8}, Ptr{Uint8}),
-                status,
-                n, m,
-                pname, tmp_vnames, tmp_cnames)
+        CUTEst.cnames(status, n, m, pname, tmp_vnames, tmp_cnames)
     else
         # Set up data structure for unconstrained minimization.
-        ccall(("cutest_unames_", "libCUTEstJL.so"), Void,
-                (Ptr{Int32},
-                Ptr{Int32},
-                Ptr{Uint8}, Ptr{Uint8}),
-                status,
-                n,
-                pname, tmp_vnames)
+        CUTEst.unames(status, n, pname, tmp_vnames)
     end
     if status[1] > 0
         throw(ErrorException("Problem when running setup"))
@@ -200,13 +186,9 @@ function loadCUTEstProb()
     # Lagrangian function.
     status[1] = 0
     if m[1] > 0
-        ccall(("cutest_cdimsh_", "libCUTEstJL.so"), Void,
-                (Ptr{Int32}, Ptr{Int32}),
-                status, nnzh)
+        CUTEst.cdimsh(status, nnzh)
     else
-        ccall(("cutest_udimsh_", "libCUTEstJL.so"), Void,
-                (Ptr{Int32}, Ptr{Int32}),
-                status, nnzh)
+        CUTEst.udimsh(status, nnzh)
     end
     if status[1] > 0
         throw(ErrorException("Problem when determine the number of nonzeros."))
@@ -216,9 +198,7 @@ function loadCUTEstProb()
     # of the objective function and constraints.
     status[1] = 0
     if m[1] > 0
-        ccall(("cutest_cdimsj_", "libCUTEstJL.so"), Void,
-                (Ptr{Int32}, Ptr{Int32}),
-                status, nnzj)
+        CUTEst.cdimsj(status, nnzj)
     else
         nnzj = [int32(-1)]
     end
