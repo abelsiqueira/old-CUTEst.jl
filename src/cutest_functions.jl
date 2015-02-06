@@ -1,3 +1,5 @@
+const libname = "libCUTEstJL.so"
+
 function cutest_jl_usetup (status, funit, iout, io_buffer, n, x, bl, bu)
     ccall(("usetup", libname), Void,
         (Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
