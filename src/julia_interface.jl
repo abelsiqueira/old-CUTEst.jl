@@ -1,6 +1,6 @@
 include("cutest_functions.jl")
 
-function obj_fun(prob, x)
+function objFun(prob, x)
   st = [int32(-1)]
   f = [0.0]
   if prob.m[1] > 0
@@ -12,7 +12,7 @@ function obj_fun(prob, x)
   return f
 end
 
-function obj_grad(prob, x)
+function objGrad(prob, x)
   st = [int32(-1)]
   f = [0.0]
   g = Array(Float64, prob.n[1])
@@ -34,4 +34,13 @@ function constr(prob, x)
   c = Array(Float64,prob.m[1])
   cfn(st, prob.n, prob.m, x, f, c)
   return c
+end
+
+function terminate(prob)
+  st = [int32(-1)]
+  if prob.m[1] > 0
+    cterminate(st)
+  else
+    uterminate(st)
+  end
 end

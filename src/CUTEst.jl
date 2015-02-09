@@ -99,8 +99,6 @@ end
 
 # Public functions
 
-export buildCUTEstProb, loadCUTEstProb, evaluateCUTEstProb
-
 # Create the shared library to be used.
 function buildCUTEstProb(prob_name)
     run(`sifdecoder $prob_name`)
