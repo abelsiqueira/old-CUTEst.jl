@@ -1,7 +1,7 @@
 using CUTEst
 
-CUTEst.buildCUTEstProb("BARD")
-prob = CUTEst.loadCUTEstProb()
+CUTEst.buildProblem("BARD")
+prob = CUTEst.loadProblem()
 
 x = prob.x
 f = CUTEst.objFun(prob, x)

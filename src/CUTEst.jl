@@ -46,7 +46,7 @@ const v_order = [int32(0)]
 # CUTEstProb
 #
 # Store all the information about a problem and will be setup
-# by loadCUTEstProb.
+# by loadProblem
 type CUTEstProb
     # name of the problem
     pname::ASCIIString
@@ -97,10 +97,8 @@ function names2array(names::ASCIIString, size::Int32, number::Int32)
     return array
 end
 
-# Public functions
-
 # Create the shared library to be used.
-function buildCUTEstProb(prob_name)
+function buildProblem(prob_name)
     run(`sifdecoder $prob_name`)
     files = ["ELFUN", "EXTER", "GROUP", "RANGE"]
     for file = files
@@ -111,7 +109,7 @@ function buildCUTEstProb(prob_name)
 end
 
 # Setup the data structure with all the information about the problem.
-function loadCUTEstProb()
+function loadProblem()
     # Variables that store problems information.
     #
     # They must be a array because otherwise their values won't change
