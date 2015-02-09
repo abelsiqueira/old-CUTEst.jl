@@ -1,4 +1,4 @@
-This works is licensed under the GNU GPL v.3.
+This work is licensed under the GNU GPL v.3.
 Copyright (c) 2015: Abel Soares Siqueira and Raniere Silva
               2014: Raniere Silva
 
