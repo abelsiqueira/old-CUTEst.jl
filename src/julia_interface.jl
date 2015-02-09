@@ -9,4 +9,5 @@ function obj_fun(prob, x)
   else
     ufn(st, prob.n, x, f)
   end
+  return f
 end
