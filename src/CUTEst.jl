@@ -109,6 +109,7 @@ function buildCUTEstProb(prob_name)
         run(`gfortran -c -o $file.o $file.f -fPIC`)
     end
     run(`ld -shared -o libCUTEstJL.so ELFUN.o EXTER.o GROUP.o RANGE.o -lcutest -lgfortran`)
+    push!(DL_LOAD_PATH,".")
 end
 
 # Setup the data structure with all the information about the problem.
