@@ -102,7 +102,7 @@ function buildProblem(prob_name)
     run(`sifdecoder $prob_name`)
     files = ["ELFUN", "EXTER", "GROUP", "RANGE"]
     for file = files
-        run(`gfortran -c -o $file.o $file.f -fPIC`)
+        run(`gfortran -c -o $file.o $file.f -fPIC -g -ggdb`)
     end
     run(`ld -shared -o libCUTEstJL.so ELFUN.o EXTER.o GROUP.o RANGE.o -lcutest -lgfortran`)
     push!(DL_LOAD_PATH,".")
