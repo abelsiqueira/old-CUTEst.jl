@@ -41,6 +41,9 @@ const l_order = [int32(0)]
 # be interpreted as 0.
 const v_order = [int32(0)]
 
+@osx? (const sh_flags = ["-dynamiclib", "-undefined", "dynamic_lookup"]) : (const sh_flags = ["-shared"]);
+@osx? (const soname = "dylib") : (const soname = "so");
+
 # Type definitions
 
 # CUTEstProb
@@ -106,7 +109,7 @@ function buildCUTEstProb(prob_name)
     for file = files
         run(`gfortran -c -o $file.o $file.f -fPIC`)
     end
-    run(`ld -shared -o libCUTEstJL.so ELFUN.o EXTER.o GROUP.o RANGE.o -lcutest -lgfortran`)
+    run(`ld $sh_flags -o libCUTEstJL.$soname ELFUN.o EXTER.o GROUP.o RANGE.o -lcutest -lgfortran`)
     push!(DL_LOAD_PATH,".")
 end
 
